@@ -12,9 +12,10 @@ const main = async ()=>{
             logger.info({port}, "Auth service is running");
 
             function shutdown(){
-                  logger.info("Shutting down log info");
-                  
                   Promise.all([])
+                  .then(() => {
+                        logger.info("Shutting down log info");
+                      })
                   .catch((error:unknown)=>{
                         logger.error({error}, "Error during shutdown tasks")
                   })
