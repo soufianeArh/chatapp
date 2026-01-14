@@ -6,10 +6,10 @@ interface EnvOptions {
 
 type SchemaOutput<TSschema extends ZodRawShape> = ZodObject<TSschema>["_output"]
 
-export const createEnv = <TSschema extends ZodRawShape>(
+export function createEnv <TSschema extends ZodRawShape>(
       schema:ZodObject<TSschema>,
       options:EnvOptions = {}
-): SchemaOutput<TSschema>=>{
+): SchemaOutput<TSschema>{
       const {source = process.env, serviceName="service"} = options;
       const parsed = schema.safeParse(source);
       if(!parsed.success){
