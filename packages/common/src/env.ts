@@ -12,6 +12,7 @@ export function createEnv <TSschema extends ZodRawShape>(
 ): SchemaOutput<TSschema>{
       const {source = process.env, serviceName="service"} = options;
       const parsed = schema.safeParse(source);
+
       if(!parsed.success){
             const formatedErrors = parsed.error.format();
             throw new Error(
