@@ -3,12 +3,16 @@ import { createServer } from "http";
 import { env } from "./config/env"
 import { logger } from "./utils/logger";
 import { connectToDatabase } from "./db/sequelize";
+import { initModels } from "./models";
 
 
 const main = async ()=>{
       try{
-            //connection check first 
+            //connection check first
             await connectToDatabase()
+            // init the models
+            await initModels();
+
             const app = createApp();
             const server = createServer(app);
             const port = env.AUTH_SERVICE_PORT;
