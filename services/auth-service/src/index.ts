@@ -2,7 +2,7 @@ import { createApp } from "./app";
 import { createServer } from "http";
 import { env } from "./config/env"
 import { logger } from "./utils/logger";
-import { connectToDatabase } from "./db/sequelize";
+import { connectToDatabase, closeToDatabase } from "./db/sequelize";
 import { initModels } from "./models";
 
 
@@ -20,7 +20,7 @@ const main = async ()=>{
             logger.info({port}, "Auth service is running");
 
             function shutdown(){
-                  Promise.all([])
+                  Promise.all([closeToDatabase])
                   .then(() => {
                         logger.info("Shutting down log info");
                       })
