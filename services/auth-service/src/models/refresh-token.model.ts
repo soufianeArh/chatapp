@@ -1,4 +1,5 @@
 import {Model, DataTypes, type Optional} from "sequelize";
+import { UserCredentials } from "./user-credentials.models";
 import { sequelize } from "@/db/sequelize";
 
 export interface RefreshTokenAttributes{
@@ -53,4 +54,16 @@ export class RefreshToken
  },{
       sequelize,
       tableName:"refresh_token"
- })
+ });
+ //decalre just some oncasscade metadata for this mode 
+ //cant do this in pure sql
+ UserCredentials.hasMany(RefreshToken, {
+      foreignKey: "userId",
+      as: "refreshTokens",
+      onDelete: "CASCADE",
+    });
+//create the enventual foreign key
+RefreshToken.belongsTo(UserCredentials, {
+foreignKey: "userId",
+as: "user",
+});
