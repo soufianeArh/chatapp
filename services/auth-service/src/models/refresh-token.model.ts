@@ -13,8 +13,8 @@ export interface RefreshTokenAttributes{
 };
 
 export type RefreshTokenCreationAttributes = Optional<RefreshTokenAttributes, "id" | "createdAt" | "updatedAt">
-export class RefreshToken 
-        extends Model<RefreshTokenAttributes, RefreshTokenCreationAttributes> 
+export class RefreshToken
+        extends Model<RefreshTokenAttributes, RefreshTokenCreationAttributes>
         implements RefreshTokenAttributes {
             declare id: string;
             declare userId: string;
