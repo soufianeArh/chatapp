@@ -5,4 +5,4 @@ import { registerSchema } from "./auth.schema";
 
 export const authRouter: Router = Router();
 
-authRouter.post("/register",ValidateRequest({}), registerController )
+authRouter.post("/register",ValidateRequest({body: registerSchema.shape.body}), registerController )
