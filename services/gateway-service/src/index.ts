@@ -7,7 +7,7 @@ const main = async ()=>{
       try{
             const app = createApp();
             const server = createServer(app);
-            const port = env.AUTH_SERVICE_PORT;
+            const port = env.GATEWAY_PORT;
             server.listen(port);
             logger.info({port}, "*GATEWAY-SERVICE* is running");
 
