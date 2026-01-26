@@ -6,7 +6,7 @@ export interface internalAuthOptions {
       exemptPaths? : string[]
 }
 
-const DEFAULT_HEADER_NAME = 'x-internal-token';
+const DEFAULT_HEADER_NAME = 'X-Internal-Token';
 
 export const createInternalAuthMiddleware  = (
       expectedToekn: string,
