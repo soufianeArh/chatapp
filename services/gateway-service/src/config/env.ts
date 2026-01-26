@@ -1,4 +1,5 @@
 import {z, createEnv} from "@chatapp/common";
+import 'dotenv/config';
 
 const envSchema = z.object({
       NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
