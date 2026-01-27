@@ -10,22 +10,22 @@ export const registerSchema = z.object({
 });
 
 export const loginSchema = {
-      body:{
+      body:z.object({
             email: z.email(),
             password: z.string().min(8)
 
-      }
+      })
 };
 
 export const refreshTokenSchema = {
-      body:{
+      body:z.object({
             refreshToken: z.string()
-      }
+      })
 };
 
 export const revokeSchema = {
-      body:{
+      body:z.object({
             userId: z.uuid()
-      }
+      })
 }
 
