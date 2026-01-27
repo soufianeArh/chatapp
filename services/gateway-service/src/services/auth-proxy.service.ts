@@ -72,7 +72,7 @@ export const axiosErrorHandle = (err: unknown): never => {
 export const authProxyService ={
       async register(payload:RegisterPayload) : Promise<AuthResponse>{
             try{
-                  const response = await axios.post<AuthResponse>("/auth/register",payload, authHeader)
+                  const response = await client.post<AuthResponse>("/auth/register",payload, authHeader)
                   return response.data;
             }catch(err){
                   return axiosErrorHandle(err)
@@ -81,7 +81,7 @@ export const authProxyService ={
 
       async loging(payload: LoginPayload) : Promise<AuthResponse>{
             try{
-                  const response = await axios.post<AuthResponse>("/auth/login", payload, authHeader);
+                  const response = await client.post<AuthResponse>("/auth/login", payload, authHeader);
                   return response.data
             }catch(err){
                   return axiosErrorHandle(err)

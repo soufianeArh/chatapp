@@ -1,8 +1,17 @@
-POST http://localhost:4003/auth/register HTTP/1.1
+# POST http://localhost:4003/auth/register HTTP/1.1
+# content-type: application/json
+
+# {
+#    "email": "soufiane@arhlabi.com",
+#    "password": "randompass",
+#    "displayName": "Soufiane"
+# }
+
+POST http://localhost:4000/auth/register HTTP/1.1
 content-type: application/json
 
 {
-   "email": "soufiane@arhlabi.com",
+   "email": "gateway@arhlabi.com",
    "password": "randompass",
    "displayName": "Soufiane"
 }

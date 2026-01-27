@@ -8,5 +8,4 @@ export const ErrorHandler: ErrorRequestHandler = (err, req, res, next,)=>{
             message, details:err.details
       }:{message}
       res.status(statusCode).json(payload);
-      void next()
 }
