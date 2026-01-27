@@ -2,6 +2,8 @@ import express, {type Application} from "express";
 import cors from "cors";
 import helmet from "helmet";
 import { authGlobalRoutes } from "./routes";
+import {createInternalAuthMiddleware} from "@chatapp/common";
+import { env } from "./config/env";
 
 
 export const createApp = () : Application=>{
@@ -13,6 +15,7 @@ export const createApp = () : Application=>{
        }));
        app.use(express.json());
        app.use(express.urlencoded({extended: true}));
+       app.use(createInternalAuthMiddleware(env.INTERNAL_API_TOKEN))
 
        authGlobalRoutes(app);
        
