@@ -4,6 +4,7 @@ import helmet from "helmet";
 import { authGlobalRoutes } from "./routes";
 import {createInternalAuthMiddleware} from "@chatapp/common";
 import { env } from "./config/env";
+import { ErrorHandler } from "./middlewares/error-handler";
 
 
 export const createApp = () : Application=>{
@@ -18,7 +19,8 @@ export const createApp = () : Application=>{
        app.use(createInternalAuthMiddleware(env.INTERNAL_API_TOKEN))
 
        authGlobalRoutes(app);
-       
+
+       app.use(ErrorHandler);
        app.use((_req, res,) => {
             res.status(404).send("Not Found");
           });

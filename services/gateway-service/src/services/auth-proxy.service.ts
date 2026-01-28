@@ -6,7 +6,6 @@ const client = axios.create({
       baseURL: env.AUTH_SERVICE_URL,
       timeout: 5000
 });
-
 export const authHeader = {
       headers:{
             "X-Internal-Token": env.INTERNAL_API_TOKEN
@@ -53,7 +52,7 @@ export const resolvedMessage = (status: number, data:unknown) =>{
       if(typeof data === "object" && data && 'message' in data){
             const message = (data as Record<string,unknown>).message
             if(typeof message === "string" && message.trim().length > 0){
-                  return message;
+                  return `${message} !!`;
             }
       }
       return status >= 500 ? "Internal error happened" : "Some Error Occured"
@@ -71,6 +70,7 @@ export const axiosErrorHandle = (err: unknown): never => {
 
 export const authProxyService ={
       async register(payload:RegisterPayload) : Promise<AuthResponse>{
+
             try{
                   const response = await client.post<AuthResponse>("/auth/register",payload, authHeader)
                   return response.data;

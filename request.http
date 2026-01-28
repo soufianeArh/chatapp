@@ -11,7 +11,7 @@ POST http://localhost:4000/auth/register HTTP/1.1
 content-type: application/json
 
 {
-   "email": "gateway@arhlabi.com",
+   "email": "gateway@arhlabii.com",
    "password": "randompass",
    "displayName": "Soufiane"
 }

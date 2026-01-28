@@ -14,7 +14,7 @@ export const createApp = () : Application=>{
        }));
        app.use(express.json());
        app.use(express.urlencoded({extended: true}));
-       app.use(authGlobalRouter)
+       authGlobalRouter(app)
        app.use(ErrorHandler)
        app.use((_req, res,) => {
             res.status(404).send("Not Found");
