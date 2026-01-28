@@ -1,4 +1,16 @@
 services:
+  chatapp-rabbitmq:
+    image: rabbitmq:3-management
+    container_name: chatapp-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - chatapp_network
+
   chatapp-mysql:
     image: mysql:latest
     container_name: ${CONTAINER_NAME}
