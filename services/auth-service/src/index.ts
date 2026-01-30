@@ -4,14 +4,16 @@ import { env } from "./config/env"
 import { logger } from "./utils/logger";
 import { connectToDatabase, closeToDatabase } from "./db/sequelize";
 import { initModels } from "./models";
+import { initPublisher } from "./messaging/event-publishing";
 
 
 const main = async ()=>{
       try{
-            //connection check first
+            // connection check first
             await connectToDatabase()
             // init the models
             await initModels();
+            await initPublisher()
 
             const app = createApp();
             const server = createServer(app);

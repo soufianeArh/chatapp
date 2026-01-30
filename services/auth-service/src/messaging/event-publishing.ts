@@ -1,7 +1,8 @@
 import {
       AUTH_EVENT_EXCHANGE,
       AUTH_USER_REGISTERED_ROUTER_KEY,
-      type AuthUserRegisteredPayload
+      AuthRegisteredEvent,
+      type AuthUserRegisteredPayload,
 }
       from "@chatapp/common";
 import {connect, type Channel, type ChannelModel} from "amqplib";
@@ -13,6 +14,7 @@ let channel : Channel | null = null;
 
 
 export const initPublisher = async () : Promise<void>=>{
+
       if(!env.RABBITMQ_URL){
             logger.warn("Rabbitmq url not found ! initialized service without Broker connection")
             return;
@@ -37,3 +39,43 @@ export const initPublisher = async () : Promise<void>=>{
 
       logger.info("Rabbit mq publisher inistialized")
 }
+
+
+export const userRegisteredPublish = (payload: AuthUserRegisteredPayload)=>{
+      if(!channel){
+            logger.warn("Rabbit MQ is not initialized, message cant be sent")
+            return;
+      };
+      const event: AuthRegisteredEvent = {
+            type:AUTH_USER_REGISTERED_ROUTER_KEY,
+            payload,
+            occuredAt: new Date().toISOString(),
+            metadata: { version: 1 },
+      };
+      const published = channel.publish(
+            AUTH_EVENT_EXCHANGE,
+            AUTH_USER_REGISTERED_ROUTER_KEY,
+            Buffer.from(JSON.stringify(event)),
+            { contentType: 'application/json', persistent: true },
+      );
+      if(!published){
+            logger.warn({ event }, 'Failed to publish user registered event');
+      }
+}
+
+export const closePublisher = async ()=>{
+      try{
+            const ch = channel;
+            if(ch){
+                  await ch.close();
+                  channel = null
+            };
+            const conn = connectionRef;
+            if(conn){
+                  await conn.close();
+                  connectionRef = null;
+            }
+      }catch(err){
+            logger.error({err}, "Error closing RabbitMQ channel/connection")
+      }
+};
