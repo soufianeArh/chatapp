@@ -7,7 +7,7 @@ export interface DomainEvent<Ttype extends string, Tpayload extends EventPayload
 };
 
 export interface EventMetadata {
-      correlatioId?: string,
+      correlationId?: string,
       causationId?: string,
       version?:number
 };

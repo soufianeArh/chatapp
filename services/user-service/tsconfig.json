@@ -1,12 +1,18 @@
 {
-      "extends": "../../tsconfig.base.json",
-      "compilerOptions": {
-        "rootDir": "src",
-        "outDir": "dist",
-        "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo",
-        "declaration": true,
-        "declarationMap": true,
-        "composite": true
-      },
-      "include": ["src"]
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    // "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo",
+    "declaration": true,
+    "declarationMap": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
     }
+  },
+  "include": ["src", "../../packages/common/src/errors"],
+  "references": [
+    { "path": "../../packages/common" }
+  ]
+}

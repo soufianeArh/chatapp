@@ -7,6 +7,7 @@ type CreateLoggerOptions = LoggerOptions & {
 
 export const createLogger = (options: CreateLoggerOptions): Logger => {
       const { name, ...rest } = options;
+      console.log("logger:",  process.env.NODE_ENV)
       const transport = process.env.NODE_ENV === "development"
             ? {
                   target: "pino-pretty",

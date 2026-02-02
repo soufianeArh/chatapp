@@ -1,28 +1,22 @@
 import { createApp } from "./app";
+import { env } from "@/config/env";
 import { createServer } from "http";
-import { env } from "./config/env"
 import { logger } from "./utils/logger";
-import { connectToDatabase, closeToDatabase } from "./db/sequelize";
-import { initModels } from "./models";
-import { initPublisher , closePublisher} from "./messaging/event-publishing";
-
 
 const main = async ()=>{
       try{
-            // connection check first
-            await connectToDatabase()
-            // init the models
-            await initModels();
-            await initPublisher()
-
+            //db connection 
+            //rabbit mq init publisher + listener
+            //CREATE THE SERVER 
             const app = createApp();
             const server = createServer(app);
-            const port = env.AUTH_SERVICE_PORT;
+            const port = env.USER_SERVICE_PORT;
             server.listen(port);
-            logger.info({port}, "Auth service is running");
+            logger.info({port}, "User service is running");
 
+            //LISTEN ON SHUTDOWN EVETNS 
             function shutdown(){
-                  Promise.all([closeToDatabase(), closePublisher()])
+                  Promise.all([])
                   .then(() => {
                         logger.info("Shutting down log info");
                       })
@@ -42,4 +36,4 @@ const main = async ()=>{
             process.exit(1)
       }
 };
-void main()
+main()

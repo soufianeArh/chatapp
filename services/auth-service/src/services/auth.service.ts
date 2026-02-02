@@ -1,11 +1,12 @@
 import { RegisterInput, AuthResponse, createTokenInput, ResfreshTokenResponse } from "@/types/auth";
 import { UserCredentials, RefreshToken } from "@/models"
 import { Op } from "sequelize";
-import { HttpError } from "@chatapp/common";
+import { AuthUserRegisteredPayload, HttpError } from "@chatapp/common";
 import { sequelize } from "@/db/sequelize";
 import { passwordHash } from "@/utils/token";
 import crypto from "crypto";
 import { signJWToken, signRefreshJWToken } from "@/utils/token";
+import { userRegisteredPublish } from "@/messaging/event-publishing";
 
 const REFRESH_TOKEN_TTL_DAYS=30;
 
@@ -32,15 +33,17 @@ export const register = async (input:RegisterInput): Promise<AuthResponse>=>{
             });
             const refreshToken = await createRefreshToken({userId: user.id, transaction: transaction});
             await transaction.commit();
-            //create the tokes 
+            //create the tokes
             const jwt_token = signJWToken({sub: user.id, email:user.email});
             const jwt_refresh_token = signRefreshJWToken({sub: user.id, tokenId: refreshToken.tokenId});
-            const userData = {
+            const userData: AuthUserRegisteredPayload = {
                   id: user.id,
                   email: user.email,
                   displayName: user.displayName,
                   createdAt: user.createdAt.toISOString()
             }
+            //publish the event
+            userRegisteredPublish(userData);
             return {
                   accessToken: jwt_token,
                   refreshToken: jwt_refresh_token,
