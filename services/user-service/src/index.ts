@@ -3,11 +3,13 @@ import { env } from "@/config/env";
 import { createServer } from "http";
 import { logger } from "./utils/logger";
 import { connectToDatabase } from "./db/sequelize";
+import { initModels } from "./db/models";
 
 const main = async ()=>{
       try{
-            //db connection
-            await connectToDatabase()
+            //db connection + model
+            await connectToDatabase();
+            await initModels()
             //rabbit mq init publisher + listener
             //CREATE THE SERVER
             const app = createApp();

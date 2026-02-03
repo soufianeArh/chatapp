@@ -1,4 +1,4 @@
-import { DataType, DataTypes, Model, type Optional } from "sequelize";
+import {  DataTypes, Model, type Optional } from "sequelize";
 import { sequelize } from "@/db/sequelize";
 
 export interface UserCredentialAttribute {
