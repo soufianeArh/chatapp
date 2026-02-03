@@ -2,12 +2,14 @@ import { createApp } from "./app";
 import { env } from "@/config/env";
 import { createServer } from "http";
 import { logger } from "./utils/logger";
+import { connectToDatabase } from "./db/sequelize";
 
 const main = async ()=>{
       try{
-            //db connection 
+            //db connection
+            await connectToDatabase()
             //rabbit mq init publisher + listener
-            //CREATE THE SERVER 
+            //CREATE THE SERVER
             const app = createApp();
             const server = createServer(app);
             const port = env.USER_SERVICE_PORT;
@@ -32,7 +34,7 @@ const main = async ()=>{
             process.on("SIGTERM", shutdown)
 
       }catch(error){
-            logger.error({error}, "Failed to launch auth service");
+            logger.error({error}, "Failed to launch user service");
             process.exit(1)
       }
 };

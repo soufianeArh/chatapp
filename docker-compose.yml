@@ -27,10 +27,23 @@ services:
     # command: ["mysqld", "--default-authentication-plugin=mysql_native_password"]
     networks:
       - chatapp_network
-
+  chatapp_pg:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5433:5432"
+    volumes:
+      - chatapp_pg_data_1:/var/lib/postgresql/data
+    networks:
+      - chatapp_network
 
 volumes:
   chatapp_auth_data:
+  chatapp_pg_data_1:
 
 networks:
   chatapp_network:
