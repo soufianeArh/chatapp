@@ -17,15 +17,15 @@ const toDomainUser = (model: UserModel): userData => ({
 export class UserRepository {
 
   async findById(id:string): Promise<userData | null>{
-    const user = await UserModel.findByPk(id)
+    const user = await UserModel.findByPk(id); //UserModel | null
     return user ? toDomainUser(user) : null
   };
 
-  async findAll():Promise<userData[]|null>{
+  async findAll():Promise<userData[]>{
     const users = await UserModel.findAll({
       order: ["displayName",'ASC']
-    })
-    return  users? users.map(user=>toDomainUser(user)) : null;
+    }); //[] | [UserModel, ...]
+    return  users.map(user=>toDomainUser(user)); //could pass empty
   }
 
   async upsertUserFromAuthRegisterEvent
@@ -36,7 +36,7 @@ export class UserRepository {
       displayName: payload.displayName,
       createdAt: new Date(payload.createdAt),
       updatedAt: new Date(payload.createdAt)
-    },   { returning: true },);
+    },   { returning: true },); // user (no null)
     return toDomainUser(user)
 
   }
