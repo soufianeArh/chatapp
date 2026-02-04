@@ -10,7 +10,7 @@ export interface UserAttributes{
 }
 export type UserCreationAttributes = Optional<UserAttributes, "id" | "createdAt" | "updatedAt">;
 
-export class User 
+export class UserModel 
   extends Model<UserAttributes, UserCreationAttributes>
  implements UserAttributes{
       declare  id: string;
@@ -20,7 +20,7 @@ export class User
       declare updatedAt: Date;
  };
 
- User.init({
+ UserModel.init({
       id:{
             type: DataTypes.UUID,
             primaryKey: true,
