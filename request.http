@@ -6,12 +6,22 @@
 #    "password": "randompass",
 #    "displayName": "Soufiane"
 # }
-
-POST http://localhost:4000/auth/register HTTP/1.1
+POST http://localhost:4000/auth/login HTTP/1.1
 content-type: application/json
 
 {
-   "email": "gatewayarhlabii.com",
-   "password": "randompass",
-   "displayName": "Soufiane"
+   "email": "gatewayarhlabi2@gmail.com",
+   "password": "randompass"
 }
+
+#POST http://localhost:4000/auth/register HTTP/1.1
+#content-type: application/json
+
+#{
+#   "email": "gatewayarhlabi2@gmail.com",
+#   "password": "randompass",
+#   "displayName": "Soufiane"
+#}
+
+
+

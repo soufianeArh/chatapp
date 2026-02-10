@@ -4,12 +4,14 @@ import { createServer } from "http";
 import { logger } from "./utils/logger";
 import { connectToDatabase } from "./db/sequelize";
 import { initModels } from "./db/models";
+import { startAuthEventConsumer } from "./messaging/auth-consumer";
 
 const main = async ()=>{
       try{
             //db connection + model
             await connectToDatabase();
-            await initModels()
+            await initModels();
+            await startAuthEventConsumer();
             //rabbit mq init publisher + listener
             //CREATE THE SERVER
             const app = createApp();
@@ -18,7 +20,7 @@ const main = async ()=>{
             server.listen(port);
             logger.info({port}, "User service is running");
 
-            //LISTEN ON SHUTDOWN EVETNS 
+            //LISTEN ON SHUTDOWN EVETNS
             function shutdown(){
                   Promise.all([])
                   .then(() => {

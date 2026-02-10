@@ -8,6 +8,5 @@ export const ErrorHandler:ErrorRequestHandler =
       const statusCode = error?.statusCode ?? 500
       const message = error?.message ?? "Internal Error"
       const payload = error?.details ? {message, details: error.details } : {message};
-
-      res.status(statusCode).json(payload);
+     res.status(statusCode).json(payload);
  }

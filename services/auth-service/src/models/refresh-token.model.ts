@@ -30,7 +30,7 @@ export class RefreshToken
             defaultValue: DataTypes.UUIDV4
       },
       userId:{
-            type: DataTypes.STRING,
+            type: DataTypes.UUID,
             allowNull: false
       },
       tokenId:{

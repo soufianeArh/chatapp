@@ -9,13 +9,13 @@ export const registerSchema = z.object({
       })
 });
 
-export const loginSchema = {
+export const loginSchema = z.object({
       body:z.object({
             email: z.email(),
             password: z.string().min(8)
 
       })
-};
+});
 
 export const refreshTokenSchema = {
       body:z.object({
