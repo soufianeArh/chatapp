@@ -26,4 +26,15 @@ export const loginController : AsyncHandler = async (req, res, next)=>{
       }catch(err){
             next(err)
       }
+};
+
+export const refreshTokenController : AsyncHandler = async (req,res,next) => {
+      try{
+            const payload = req.body;
+            const response = await authProxyService.refresh(payload);//this will type verify
+            res.status(200).json(response)
+
+      }catch(err){
+            next(err)
+      }
 }

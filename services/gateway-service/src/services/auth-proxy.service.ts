@@ -86,5 +86,14 @@ export const authProxyService ={
             }catch(err){
                   return axiosErrorHandle(err)
             }
-      }
+      },
+
+      async refresh( payload: RefreshPayload){
+            try{
+                  const response = await client.post<AuthToken>("/auth/refresh", payload, authHeader);
+                  return response.data
+            }catch(err){
+                  return axiosErrorHandle(err)
+            };
+}
 }
