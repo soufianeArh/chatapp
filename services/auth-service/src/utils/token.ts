@@ -34,7 +34,8 @@ export const signJWToken = (payload: signJWTokenPaylod) : string => {
 export const signRefreshJWToken = (payload: signRefreshJWTokenPaylod)=>{
       return jwt.sign(payload, JWT_REFRESH_SECRET_TOKEN, REFRESH_SIGNOPTIONS )
 };
-
+//if token is correct : payload else THROW ERROR catched later.. why not handled here 
+//we assum its correct because we dont think user will edit cookies
 export const verifyRefreshToken = (token: string ): signRefreshJWTokenPaylod=> {
       return jwt.verify(token, JWT_REFRESH_SECRET_TOKEN) as signRefreshJWTokenPaylod
-}
+};

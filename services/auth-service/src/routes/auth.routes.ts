@@ -1,9 +1,12 @@
 import {Router} from "express";
-import {loginController, registerController} from "@/controllers/auth.controler";
+import {loginController, registerController, refreshTokenController} from "@/controllers/auth.controler";
 import {ValidateRequest} from "@chatapp/common";
-import { registerSchema, loginSchema } from "./auth.schema";
+import { registerSchema, loginSchema, refreshTokenSchema } from "./auth.schema";
 
 export const authRouter: Router = Router();
 
 authRouter.post("/register",ValidateRequest({body: registerSchema.shape.body}), registerController);
-authRouter.post("/login", ValidateRequest({body: loginSchema.shape.body}), loginController)
+authRouter.post("/login", ValidateRequest({body: loginSchema.shape.body}), loginController);
+authRouter.post("/refresh", ValidateRequest({body: refreshTokenSchema.shape.body}), refreshTokenController);
+
+

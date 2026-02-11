@@ -17,11 +17,11 @@ export const loginSchema = z.object({
       })
 });
 
-export const refreshTokenSchema = {
+export const refreshTokenSchema = z.object({
       body:z.object({
             refreshToken: z.string()
       })
-};
+});
 
 export const revokeSchema = {
       body:z.object({

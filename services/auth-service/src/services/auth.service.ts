@@ -3,11 +3,12 @@ import { UserCredentials, RefreshToken } from "@/models"
 import { Op } from "sequelize";
 import { AuthUserRegisteredPayload, HttpError } from "@chatapp/common";
 import { sequelize } from "@/db/sequelize";
-import { passwordHash, verifyPassword } from "@/utils/token";
+import { passwordHash, verifyPassword, verifyRefreshToken } from "@/utils/token";
 import crypto from "crypto";
 import { signJWToken, signRefreshJWToken } from "@/utils/token";
 import { userRegisteredPublish } from "@/messaging/event-publishing";
 import { Where } from "sequelize/types/utils";
+import { logger } from "@/utils/logger";
 
 const REFRESH_TOKEN_TTL_DAYS=30;
 
@@ -86,9 +87,39 @@ export const login = async (input: LoginInput): Promise<AuthToken | undefined>=>
 
 };
 
-//new function refresh token: this function will be trigered in user authenticated via validator
 
+export const refreshToken = async (token:string): Promise<AuthToken | void>=>{
+      //get payload from jwt refresh teken
+      const payload = verifyRefreshToken(token);
+      //check if refresh token & userId combo is found(even if found we might have an oldrecord)
+      const refreshTokenRecord = await RefreshToken.findOne({
+            where: {tokenId: payload.tokenId, userId: payload.sub}
+      });
+      if(!refreshTokenRecord){
+            throw new HttpError(404,"refresh Token not found");
+            return;
+      };
+      if (refreshTokenRecord.expiresAt.getTime() < Date.now()) {
+            await refreshTokenRecord.destroy();
+            throw new HttpError(401, 'Refresh token has expired');
+          };
+      //why i dodnt add email in token refresh record?
+      // because we need to make sure the user is still alive???
+      const userCredentialS = await UserCredentials.findByPk(payload.sub);
+      if(!userCredentialS){
+            logger.warn("Credential not found of a valid refresh token");
+            throw new HttpError(401, 'Invalid refresh token');
+      };
 
+      await refreshTokenRecord.destroy();
+      const newRefreshRecord =  await createRefreshToken({userId: userCredentialS.id});
+
+      return {
+            accessToken: signJWToken({sub: userCredentialS.id, email:userCredentialS.email}),
+            refreshToken: signRefreshJWToken({sub:userCredentialS.id, tokenId:newRefreshRecord.tokenId})
+      }
+
+}
 
 export const createRefreshToken = async (input: createTokenInput) : Promise<ResfreshTokenResponse>=>{
        //to create a token i need to be part of a transaction 
