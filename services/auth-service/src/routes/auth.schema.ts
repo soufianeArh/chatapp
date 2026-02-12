@@ -23,9 +23,9 @@ export const refreshTokenSchema = z.object({
       })
 });
 
-export const revokeSchema = {
+export const revokeSchema = z.object({
       body:z.object({
             userId: z.uuid()
       })
-}
+})
 

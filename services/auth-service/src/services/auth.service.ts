@@ -119,6 +119,10 @@ export const refreshToken = async (token:string): Promise<AuthToken | void>=>{
             refreshToken: signRefreshJWToken({sub:userCredentialS.id, tokenId:newRefreshRecord.tokenId})
       }
 
+};
+
+export const revokeRefreshToken = async (userId:string): Promise<void>=>{
+      await RefreshToken.destroy({ where: { userId } });
 }
 
 export const createRefreshToken = async (input: createTokenInput) : Promise<ResfreshTokenResponse>=>{
