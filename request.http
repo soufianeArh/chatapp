@@ -16,12 +16,20 @@
 # }
 
 
-POST http://localhost:4000/auth/refresh HTTP/1.1
+# POST http://localhost:4000/auth/refresh HTTP/1.1
+# content-type: application/json
+
+# {
+#    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlMTFlNjg1YS0xOTI0LTQ3NGYtYjFkOC02ZjYyZTkxNjg1ZWMiLCJ0b2tlbklkIjoiNTgxNTg4NGMtYTQ5ZC00N2U0LTllMzMtMTBiYTQ3OWRjNGZkIiwiaWF0IjoxNzcwODAwNDI2LCJleHAiOjE3NzA4ODY4MjZ9.sq-RVxUoWpBPV1O9IXOrGU7xbeGZpI8qXDJFzhWK6bA"
+# }
+
+POST http://localhost:4000/auth/revoke HTTP/1.1
 content-type: application/json
 
 {
-   "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlMTFlNjg1YS0xOTI0LTQ3NGYtYjFkOC02ZjYyZTkxNjg1ZWMiLCJ0b2tlbklkIjoiNTgxNTg4NGMtYTQ5ZC00N2U0LTllMzMtMTBiYTQ3OWRjNGZkIiwiaWF0IjoxNzcwODAwNDI2LCJleHAiOjE3NzA4ODY4MjZ9.sq-RVxUoWpBPV1O9IXOrGU7xbeGZpI8qXDJFzhWK6bA"
+   "userId": "e11e685a-1924-474f-b1d8-6f62e91685ec"
 }
+
 
 #POST http://localhost:4000/auth/register HTTP/1.1
 #content-type: application/json
