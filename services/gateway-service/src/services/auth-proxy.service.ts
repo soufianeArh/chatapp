@@ -95,5 +95,13 @@ export const authProxyService ={
             }catch(err){
                   return axiosErrorHandle(err)
             };
-}
+      },
+      
+      async revoke( payload: revokePayload){
+            try{
+                 await client.post<void>("/auth/revoke", payload, authHeader);
+            }catch(err){
+                  return axiosErrorHandle(err)
+            }
+      }
 }

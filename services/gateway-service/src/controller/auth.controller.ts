@@ -1,5 +1,5 @@
 import { authProxyService, type RegisterPayload } from "@/services/auth-proxy.service";
-import { registerSchema } from "@/validation/auth.schema";
+import { registerSchema, revokeSchema } from "@/validation/auth.schema";
 import { type AsyncHandler } from "@chatapp/common";
 
 
@@ -37,4 +37,16 @@ export const refreshTokenController : AsyncHandler = async (req,res,next) => {
       }catch(err){
             next(err)
       }
-}
+};
+
+export const revokeTokenController : AsyncHandler = async (req,res,next) => {
+      try{
+            const payload = revokeSchema.parse(req.body);
+            await authProxyService.revoke(payload);
+            res.status(204).send()
+
+      }catch(err){
+            next(err)
+      }
+};
+
