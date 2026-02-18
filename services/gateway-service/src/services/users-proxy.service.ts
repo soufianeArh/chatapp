@@ -67,7 +67,7 @@ export const axiosErrorHandle = (err: unknown): never => {
       throw (new HttpError(status, resolvedMessage(status ,data)))
 };
 
-const userProxyService = {
+export const userProxyService = {
       //get user by id
       async getUser (id:string): Promise<UserResponse | void> {
             try{
@@ -87,7 +87,7 @@ const userProxyService = {
             }
       },
       //create user : email/displayname
-      async createUser (payload: CreateUserInput){
+      async createUser (payload: CreateUserInput): Promise<UserResponse | void>{
             try{
                   const response = await client.post<UserResponse>("/users", payload, authHeader);
                   return response.data;
@@ -103,7 +103,7 @@ const userProxyService = {
                         '/search',
                         {
                               params:{
-                                    query, 
+                                    query,
                                     limit,
                                     excludeIds
                               },
