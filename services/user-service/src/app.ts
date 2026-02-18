@@ -20,9 +20,9 @@ export const createApp = ():Application =>{
        app.use(createInternalAuthMiddleware(env.INTERNAL_API_TOKEN, {
             exemptPaths:['/users/health']
        }));
-       //routes 
+       //routes
        registerRoutes(app)
-       //handler 
+       //handler
        //fail
        app.use(ErrorHandler);
        app.use((_req, res,) => {
