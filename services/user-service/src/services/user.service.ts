@@ -1,16 +1,8 @@
 import { AuthUserRegisteredPayload, HttpError } from "@chatapp/common";
 import {userRepository, UserRepository} from "@/repositories/user.repositories";
-import { userData } from "@/types/user";
-//next: to be called by controller and its thwon error are catched in controller 
-
-export const findOne = async (id:string): Promise<userData | void>=>{
-      const user = await userRepository.findById(id)
-      if(!user){
-            throw new HttpError(401, "User Not Found");
-            return;
-      }
-      return user;
-};
+import { createUserInput, userData } from "@/types/user";
+import { UniqueConstraintError } from "sequelize";
+//next: to be called by controller and its thwon error are catched in controller
 
 
 class UserService {
@@ -21,7 +13,7 @@ class UserService {
       if(!user){
             throw new HttpError(401, "User Not Found");
             return;
-      }
+      }  
       return user;
       };
 
@@ -32,6 +24,33 @@ class UserService {
             };
             return users;
       };
+
+      async createUser (data: createUserInput){
+            try{
+                  const user = await this.repository.create(data);
+                  //TODO: PUBLISH
+                  return user;
+            }catch(err){
+                  if(err instanceof UniqueConstraintError){
+                        throw new HttpError(409, "User already exists")
+                  };
+                  throw err;
+            }
+      };
+
+      async searchByQuery (params: {
+            query: string,
+            limit?:number,
+            excludeIds?: string[]
+      }){
+            const users = await this.repository.searchByQuery(params.query,
+                  {
+                        limit:params.limit,
+                        excludeIds: params.excludeIds
+                  }
+            );
+            return users
+      }
 
       //role: its going to be in listener when receive authregisterEvent and thenupdate the db
       //params: takes paylaod of autheventregisterd

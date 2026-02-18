@@ -16,7 +16,10 @@ export const loginController: RequestHandler = asyncHandler(async (req, res)=>{
 });
 
 export const refreshTokenController: RequestHandler = asyncHandler(async (req,res)=>{
-      const payload = req.body as {refreshToken:string};
+      const payload = req.body as {refreshToken?:string};
+      if(!payload.refreshToken){
+            throw new HttpError(400, "refresh token is required")
+      };
       const refreshTokenData = await refreshToken(payload.refreshToken);
       res.status(200).json(refreshTokenData)
 
