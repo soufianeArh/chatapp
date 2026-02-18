@@ -1,6 +1,6 @@
 import { type AsyncHandler } from "@chatapp/common";
 import { userService } from "@/services/user.service";
-import { type SearchQueryParams, type UserIdParam, type createUserBody } from "@/validation/user.schema";
+import { type SearchQueryParams, type UserIdParam, type CreateUserBody } from "@/validation/user.schema";
 
 export const getUser : AsyncHandler = async (req, res, next)=>{
       try{
@@ -23,7 +23,7 @@ export const getAllUsers : AsyncHandler = async (req, res, next)=>{
 
 export const createUser : AsyncHandler = async (req, res, next) =>{
       try{
-            const {email,displayName} = req.body as createUserBody
+            const {email,displayName} = req.body as CreateUserBody
             const user = await userService.createUser({email,displayName});
             res.status(201).json({data:user})
       }

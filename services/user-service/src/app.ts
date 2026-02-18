@@ -4,6 +4,7 @@ import cors from "cors";
 import { createInternalAuthMiddleware } from "@chatapp/common";
 import { env } from "./config/env";
 import { ErrorHandler } from "./middlewares/error-handler";
+import { registerRoutes } from "./routes";
 
 
 export const createApp = ():Application =>{
@@ -20,6 +21,7 @@ export const createApp = ():Application =>{
             exemptPaths:['/users/health']
        }));
        //routes 
+       registerRoutes(app)
        //handler 
        //fail
        app.use(ErrorHandler);

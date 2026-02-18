@@ -32,7 +32,7 @@ export const createUserBody = z.object({
 
 export type SearchQueryParams = z.infer<typeof searchQueryParams>
 export type UserIdParam = z.infer<typeof userIdParam>
-export type createUserBody = z.infer<typeof createUserBody>
+export type CreateUserBody = z.infer<typeof createUserBody>
 
 
 
