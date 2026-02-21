@@ -26,7 +26,7 @@ export const createApp = ():Application =>{
        //fail
        app.use(ErrorHandler);
        app.use((_req, res,) => {
-            res.status(404).send("Not Found");
+            res.status(404).json("Request Not Found User-srv");
           });
       return app;
 }

@@ -22,7 +22,7 @@ export const createApp = () : Application=>{
 
        app.use(ErrorHandler);
        app.use((_req, res,) => {
-            res.status(404).send("Not Found");
+            res.status(404).send("Route Not Found");
           });
       return app
 }

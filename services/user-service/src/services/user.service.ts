@@ -43,12 +43,14 @@ class UserService {
             limit?:number,
             excludeIds?: string[]
       }){
+            console.log(params);
             const users = await this.repository.searchByQuery(params.query,
                   {
                         limit:params.limit,
-                        excludeIds: params.excludeIds
+                        excludeIds: params.excludeIds ?? []
                   }
             );
+
             return users
       }
 

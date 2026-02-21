@@ -37,7 +37,8 @@ export const searchUsers : AsyncHandler = async (req, res, next)=>{
             const { query, limit, excludeIds } = req.query as SearchQueryParams;
             const lim = limit ?? 10
             const users = await userService.searchByQuery({query, limit:lim, excludeIds});
-            return users
+            console.log(users)
+            res.status(200).json({data: users})
 
       }catch(err){
             next(err)

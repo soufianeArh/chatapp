@@ -40,9 +40,9 @@ export const createUserController : AsyncHandler = async (req, res, next)=>{
 };
 export const searchQueryController : AsyncHandler = async (req, res, next)=>{
       try{
-            const payload = searchQueryParams.parse(req.params);
+            const payload = searchQueryParams.parse(req.query);
             const response = await userProxyService.searchQuery(payload);
-            res.sendStatus(200).json(response)
+            res.status(200).json(response)
       }catch(err){
             next(err)
       }

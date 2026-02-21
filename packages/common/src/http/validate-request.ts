@@ -35,14 +35,16 @@ export const ValidateRequest = (schemas: RequestVAlidationSchema) => {
                   };
                   if (schemas.query) {
                         const parsedQuery = schemas.query.parse(req.query) as QueryRecord;
-                        req.query = parsedQuery as Request['query']
+                        (req as any).validatedQuery = parsedQuery as Request['query'];
+                        //req.query = parsedQuery as Request['query']
                   };
                   next();
             } catch (error) {
                   if (error instanceof ZodError) {
                         next(new HttpError(422, "Invalid request", {issues: formattedError(error)}))
                   }else{
-                        next(new HttpError(500, "Internal Error", ))
+                        console.log(error)
+                        next(new HttpError(500, "Internal Validator Error", ))
                   }
             }
 

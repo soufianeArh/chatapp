@@ -1,7 +1,7 @@
-import { Application, Request, Response } from "express";
+import { Router, Request, Response } from "express";
 import { userRoutes } from "./users.routes"
 
-export const registerRoutes = (app: Application): void => {
+export const registerRoutes = (app: Router): void => {
   app.get("/health", (_req: Request, res: Response): void => {
     res.json({
       success: "OK",

@@ -23,8 +23,9 @@ export class UserRepository {
 
   async findAll(): Promise<userData[]> {
     const users = await UserModel.findAll({
-      order: ["displayName", 'ASC']
+      order: [["displayName", "ASC"]],
     }); //[] | [UserModel, ...]
+
     return users.map(user => toDomainUser(user)); //could pass empty
   };
 
@@ -50,11 +51,13 @@ export class UserRepository {
         ]
       })
     };
+    console.log("fired1")
     const users = await UserModel.findAll({
       where,
       order: [['displayName', 'ASC']],
       limit: options.limit ?? 10,
-    })
+    });
+
 
     return users.map(toDomainUser);
   }

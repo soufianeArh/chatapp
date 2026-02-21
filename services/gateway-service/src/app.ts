@@ -2,7 +2,7 @@ import express, {type Application} from "express";
 import cors from "cors";
 import helmet from "helmet";
 import { ErrorHandler } from "./middleware/error-handler";
-import { authGlobalRouter } from "./routes";
+import { globalRouter } from "./routes";
 
 
 export const createApp = () : Application=>{
@@ -14,10 +14,10 @@ export const createApp = () : Application=>{
        }));
        app.use(express.json());
        app.use(express.urlencoded({extended: true}));
-       authGlobalRouter(app)
+       globalRouter(app)
        app.use(ErrorHandler)
        app.use((_req, res,) => {
-            res.status(404).send("Not Found");
+            res.status(404).json("Not Found gateway");
           });
       return app
 }

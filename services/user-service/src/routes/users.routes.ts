@@ -5,7 +5,7 @@ import { Router } from "express";
 
 export const userRoutes: Router = Router();
 
+userRoutes.get("/search", ValidateRequest({query: searchQueryParams}), asyncHandler(searchUsers))
 userRoutes.get("/", asyncHandler(getAllUsers));
 userRoutes.post("/", ValidateRequest({body: createUserBody}), asyncHandler(createUser));
 userRoutes.get("/:id",ValidateRequest({params: userIdParam}), asyncHandler(getUser));
-userRoutes.get("/search", ValidateRequest({query: searchQueryParams}), asyncHandler(getUser))
