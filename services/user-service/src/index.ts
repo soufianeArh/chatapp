@@ -5,6 +5,7 @@ import { logger } from "./utils/logger";
 import { connectToDatabase } from "./db/sequelize";
 import { initModels } from "./db/models";
 import { startAuthEventConsumer } from "./messaging/auth-consumer";
+import { initPublisher } from "./messaging/event-publisher";
 
 const main = async ()=>{
       try{
@@ -12,6 +13,7 @@ const main = async ()=>{
             await connectToDatabase();
             await initModels();
             await startAuthEventConsumer();
+            await initPublisher();
             //rabbit mq init publisher + listener
             //CREATE THE SERVER
             const app = createApp();
