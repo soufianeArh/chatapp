@@ -42,8 +42,12 @@ class UserService {
             query: string,
             limit?:number,
             excludeIds?: string[]
-      }){
-            console.log(params);
+      }):Promise<userData[]>{
+            //why this is not added in the zod schema
+            const query = params.query.trim();
+            if(query.length === 0){
+                  return [];
+            };
             const users = await this.repository.searchByQuery(params.query,
                   {
                         limit:params.limit,
