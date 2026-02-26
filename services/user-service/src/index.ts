@@ -5,7 +5,7 @@ import { logger } from "./utils/logger";
 import { connectToDatabase } from "./db/sequelize";
 import { initModels } from "./db/models";
 import { startAuthEventConsumer } from "./messaging/auth-consumer";
-import { initPublisher } from "./messaging/event-publisher";
+import {closeMessaging, initMessaging} from "./messaging/event-publisher";
 
 const main = async ()=>{
       try{
@@ -13,7 +13,7 @@ const main = async ()=>{
             await connectToDatabase();
             await initModels();
             await startAuthEventConsumer();
-            await initPublisher();
+            await initMessaging();
             //rabbit mq init publisher + listener
             //CREATE THE SERVER
             const app = createApp();
@@ -24,7 +24,7 @@ const main = async ()=>{
 
             //LISTEN ON SHUTDOWN EVETNS
             function shutdown(){
-                  Promise.all([])
+                  Promise.all([closeMessaging])
                   .then(() => {
                         logger.info("Shutting down log info");
                       })

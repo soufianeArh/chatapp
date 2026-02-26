@@ -5,24 +5,31 @@ import {
       type UserCreatedPayload,
 }
       from "@chatapp/common";
-import {connect, type Channel, type ChannelModel} from "amqplib";
+import {connect, type Channel, type ChannelModel, type Connection} from "amqplib";
 import { env } from "@/config/env";
 import { logger } from "@/utils/logger";
 
-let connectionRef : ChannelModel | null = null;
+type ManagedConnection =
+  Connection & Pick<ChannelModel, 'close' | 'createChannel'>;
+
+let connectionRef: ManagedConnection | null = null;
 let channel : Channel | null = null;
 
+const messagingEnabled = Boolean(env.RABBITMQ_URL);
 
-export const initPublisher = async () : Promise<void>=>{
 
-      if(!env.RABBITMQ_URL){
-            logger.warn("Rabbitmq url not found ! initialized service without Broker connection")
-            return;
-      };
+
+export const ensureChannel = async () : Promise<Channel | null>=>{
+      if (!env.RABBITMQ_URL) {
+            return null;
+          };
+      if(!messagingEnabled){
+            return null;
+      }
       if(channel){
-            return;
+            return channel;
       };
-      const connection = await connect(env.RABBITMQ_URL);
+      const connection = (await connect(env.RABBITMQ_URL)) as unknown as ManagedConnection ;
       connectionRef = connection;
       channel = await connection.createChannel();
       await channel.assertExchange(USER_EVENTS_EXCHANGE, "topic", {durable: true});
@@ -33,16 +40,24 @@ export const initPublisher = async () : Promise<void>=>{
             connectionRef = null
 
       });
-      connection.on("error", ()=>{
-            logger.error("Rabbit MQ connection failed onErr")
+      connection.on("error", (error)=>{
+            logger.error({err: error},"Rabbit MQ connection failed onErr")
       });
+      logger.info("Rabbit mq publisher inistialized");
+      return channel;
+};
 
-      logger.info("Rabbit mq publisher inistialized")
+export const initMessaging = async ()=>{
+      if(!messagingEnabled){
+            logger.info('RabbitMQ URL is not configured; messaging disabled');
+            return;
+      };
+      await ensureChannel()
 }
 
-
-export const userCreatedPublish = (payload: UserCreatedPayload)=>{
-      if(!channel){
+export const userCreatedPublish = async (payload: UserCreatedPayload)=>{
+      const ch =  await ensureChannel()
+      if(!ch){
             logger.warn("Rabbit MQ is not initialized, message cant be sent")
             return;
       };
@@ -52,18 +67,26 @@ export const userCreatedPublish = (payload: UserCreatedPayload)=>{
             occuredAt: new Date().toISOString(),
             metadata: { version: 1 },
       };
-      const published = channel.publish(
-            USER_EVENTS_EXCHANGE,
-            USER_CREATED_ROUTING_KEY,
-            Buffer.from(JSON.stringify(event)),
-            { contentType: 'application/json', persistent: true },
-      );
-      if(!published){
-            logger.warn({ event }, 'Failed to publish user registered event');
+      try{
+            const published = ch.publish(
+                  USER_EVENTS_EXCHANGE,
+                  USER_CREATED_ROUTING_KEY,
+                  Buffer.from(JSON.stringify(event)),
+                  { contentType: 'application/json', persistent: true },
+            );
+            logger.info('user created event published');
+
+            if(!published){
+                  logger.warn({ event }, 'Failed (false) to publish user registered event');
+            }
+      }catch(err){
+            logger.warn({ err }, 'Failed (thrown) to publish user registered event');
+
       }
+     
 }
 
-export const closePublisher = async ()=>{
+export const closeMessaging = async ()=>{
       try{
             const ch = channel;
             if(ch){

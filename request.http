@@ -1,8 +1,8 @@
-# POST http://localhost:4003/auth/register HTTP/1.1
+# POST http://localhost:4000/auth/register HTTP/1.1
 # content-type: application/json
 
 # {
-#    "email": "soufiane@arhlabi.com",
+#    "email": "soufiane33@arhlabi.com",
 #    "password": "randompass",
 #    "displayName": "Soufiane"
 # }
@@ -14,7 +14,7 @@
 #    "email": "gatewayarhlabi2@gmail.com",
 #    "password": "randompass"
 # }
-
+#"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlMTFlNjg1YS0xOTI0LTQ3NGYtYjFkOC02ZjYyZTkxNjg1ZWMiLCJlbWFpbCI6ImdhdGV3YXlhcmhsYWJpMkBnbWFpbC5jb20iLCJpYXQiOjE3NzIwODc0ODAsImV4cCI6MTc3MjE3Mzg4MH0.C6uGN0JRAEAgacrSOJETf0g5uczzOIrHVSe6JwCNCcE"
 
 # POST http://localhost:4000/auth/refresh HTTP/1.1
 # content-type: application/json
@@ -32,18 +32,22 @@
 
 # GET http://localhost:4000/users/ HTTP/1.1
 
-# GET http://localhost:4000/users/e11e685a-1924-474f-b1d8-6f62e91685ec HTTP/1.1
+GET http://localhost:4000/users/e11e685a-1924-474f-b1d8-6f62e91685ec HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyMTYzYTA2ZC1hZTA5LTRlZjEtOWRlMi1kZTY4ZWM1YTZmODQiLCJlbWFpbCI6InNvdWZpYW5lMzNAYXJobGFiaS5jb20iLCJpYXQiOjE3NzIwODc4MzksImV4cCI6MTc3MjE3NDIzOX0.zWzv9257-M18cFTPJuk47tfvpAuyDp0Go0pagaK23vU
+
 
 # POST http://localhost:4000/users/ HTTP/1.1
 # content-type: application/json
 
 # {
-#   "email": "gatewayarhlabi34@gmail.com",
+#   "email": "gatewayarhlabi4@gmail.com",
 #   "displayName": "arh"
 # }
 
-GET http://localhost:4000/users/search?query=soufiane&limit=4 HTTP/1.1
 
+# GET http://localhost:4000/users/search?query=soufiane&limit=4 HTTP/1.1
+# Host: localhost:4000
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyMTYzYTA2ZC1hZTA5LTRlZjEtOWRlMi1kZTY4ZWM1YTZmODQiLCJlbWFpbCI6InNvdWZpYW5lMzNAYXJobGFiaS5jb20iLCJpYXQiOjE3NzIwODc4MzksImV4cCI6MTc3MjE3NDIzOX0.zWzv9257-M18cFTPJuk47tfvpAuyDp0Go0pagaK23vU
 
 #POST http://localhost:4000/auth/register HTTP/1.1
 #content-type: application/json

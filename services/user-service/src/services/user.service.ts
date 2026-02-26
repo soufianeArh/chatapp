@@ -1,7 +1,8 @@
-import { AuthUserRegisteredPayload, HttpError } from "@chatapp/common";
+import { AuthUserRegisteredPayload, HttpError, UserCreatedPayload, UserCreatedEvent, USER_CREATED_ROUTING_KEY } from "@chatapp/common";
 import {userRepository, UserRepository} from "@/repositories/user.repositories";
 import { createUserInput, userData } from "@/types/user";
 import { UniqueConstraintError } from "sequelize";
+import { userCreatedPublish } from "@/messaging/event-publisher";
 //next: to be called by controller and its thwon error are catched in controller
 
 
@@ -29,6 +30,15 @@ class UserService {
             try{
                   const user = await this.repository.create(data);
                   //TODO: PUBLISH
+                  const userCreatedPayload: UserCreatedPayload = {
+                        id: user.id,
+                        email: user.email,
+                        displayName: user.displayName,
+                        createdAt: user.createdAt.toISOString(),
+                        updatedAt: user.updatedAt.toDateString()
+                  };
+                  void userCreatedPublish(userCreatedPayload)
+
                   return user;
             }catch(err){
                   if(err instanceof UniqueConstraintError){
@@ -64,8 +74,16 @@ class UserService {
       //logic: calls the repositorye and upset.. no error catch
       //next: called in listener (auth consumer)
       async syncFromAuthUser(payload: AuthUserRegisteredPayload){
-            const user = this.repository.upsertUserFromAuthRegisterEvent(payload);
+            const user = await this.repository.upsertUserFromAuthRegisterEvent(payload);
             //publish event ....
+            const userCreatedPayload: UserCreatedPayload = {
+                  id: user.id,
+                  email: user.email,
+                  displayName: user.displayName,
+                  createdAt: user.createdAt.toISOString(),
+                  updatedAt: user.updatedAt.toDateString()
+            };
+            void userCreatedPublish(userCreatedPayload)
             return user;
       }
 };

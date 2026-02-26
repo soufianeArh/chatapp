@@ -7,6 +7,8 @@ const envSchema = z.object({
       USER_SERVICE_URL: z.url(),
       GATEWAY_PORT: z.coerce.number().int().min(0).max(65_535).default(4000),
       INTERNAL_API_TOKEN: z.string().min(10),
+      JWT_SECRET: z.string()
+
 });
 
 type EnvType = z.infer<typeof envSchema>;

@@ -60,7 +60,6 @@ export const resolvedMessage = (status: number, data:unknown) =>{
 
 export const axiosErrorHandle = (err: unknown): never => {
       //check if not service uncaught error/ or client  axios error
-      // console.log(err)
       if (!axios.isAxiosError(err) || !err.response ){
             throw (new HttpError(500, 'User server unavailable'));
       }
