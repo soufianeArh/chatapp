@@ -10,7 +10,27 @@ services:
       RABBITMQ_DEFAULT_PASS: guest
     networks:
       - chatapp_network
-
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - chatapp_network
+  redis:
+    image: redis:7
+    container_name: chatapp-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - chatapp_network
   chatapp-mysql:
     image: mysql:latest
     container_name: ${CONTAINER_NAME}
@@ -44,6 +64,8 @@ services:
 volumes:
   chatapp_auth_data:
   chatapp_pg_data_1:
+  mongo_data:
+  redis-data:
 
 networks:
   chatapp_network:
