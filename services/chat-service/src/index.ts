@@ -2,6 +2,7 @@ import { createApp } from "./app";
 import { createServer } from "http";
 import { env } from "./config/env"
 import { logger } from "./utils/logger";
+import { getMongoClient } from "./clients/mongo.client";
 // import { connectToDatabase, closeToDatabase } from "./db/sequelize";
 // import { initModels } from "./models";
 
@@ -11,6 +12,7 @@ const main = async ()=>{
             // await connectToDatabase()
             // init the models
             // await initModels();
+            await Promise.all([getMongoClient()])
 
             const app = createApp();
             const server = createServer(app);
