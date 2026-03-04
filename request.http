@@ -32,17 +32,17 @@
 
 # GET http://localhost:4000/users/ HTTP/1.1
 
-GET http://localhost:4000/users/e11e685a-1924-474f-b1d8-6f62e91685ec HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyMTYzYTA2ZC1hZTA5LTRlZjEtOWRlMi1kZTY4ZWM1YTZmODQiLCJlbWFpbCI6InNvdWZpYW5lMzNAYXJobGFiaS5jb20iLCJpYXQiOjE3NzIwODc4MzksImV4cCI6MTc3MjE3NDIzOX0.zWzv9257-M18cFTPJuk47tfvpAuyDp0Go0pagaK23vU
+# GET http://localhost:4000/users/e11e685a-1924-474f-b1d8-6f62e91685ec HTTP/1.1
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyMTYzYTA2ZC1hZTA5LTRlZjEtOWRlMi1kZTY4ZWM1YTZmODQiLCJlbWFpbCI6InNvdWZpYW5lMzNAYXJobGFiaS5jb20iLCJpYXQiOjE3NzIwODc4MzksImV4cCI6MTc3MjE3NDIzOX0.zWzv9257-M18cFTPJuk47tfvpAuyDp0Go0pagaK23vU
 
 
-# POST http://localhost:4000/users/ HTTP/1.1
-# content-type: application/json
+POST http://localhost:4000/users/ HTTP/1.1
+content-type: application/json
 
-# {
-#   "email": "gatewayarhlabi4@gmail.com",
-#   "displayName": "arh"
-# }
+{
+  "email": "gatewayarhlabi40@gmail.com",
+  "displayName": "arh"
+}
 
 
 # GET http://localhost:4000/users/search?query=soufiane&limit=4 HTTP/1.1
@@ -57,6 +57,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyMTYzYTA2Z
 #   "password": "randompass",
 #   "displayName": "Soufiane"
 #}
+
+
+# i want to test the creation of user and see if it will consumed well by chat 
 
 
 
